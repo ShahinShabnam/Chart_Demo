@@ -29,6 +29,7 @@
 <dx-chart id="chart" title="Daily Sales" dataSource="../assets/data/dailysales.json"
 [rotated]="true"
 >
+
 <dxi-series
     color="#79cac4"
     type="bar"
@@ -49,39 +50,49 @@
 <!-- ============================AREA CHART================================================= -->
 <div id="chart-demo">
     <dx-chart
-        title="Population: Age Structure (2000)"
-        palette="Harmony Light" 
-        [dataSource]="populationData">
-        <dxi-series [valueField]="populationData" name="15-64 years"></dxi-series>
-        <dxi-series valueField="y014" name="0-14 years"></dxi-series>
-        <dxi-series valueField="y65" name="65 years and older"></dxi-series>
-        <dxi-value-axis>
-            <dxo-label [format]="format"></dxo-label>
-        </dxi-value-axis>
-        <dxo-common-series-settings
-			#commonSeries
-            argumentField="country"
-            [type]="types[0]">
+        palette="green"
+        [dataSource]="countriesInfo"  >
+  <div *ngFor="let energy of energySources" >
+        <dxi-series  type="bar"  *ngFor="let e of ener"   [valueField]="energy[e]"  [name]="energy[e]">
+         
+        </dxi-series>
+  </div>
+        <!-- <dxo-text {{energy | json}}></dxo-text> -->
+        <dxo-common-series-settings 
+            argumentField="country">
         </dxo-common-series-settings>
         <dxo-margin [bottom]="20"></dxo-margin>
-        <dxo-argument-axis [valueMarginsEnabled]="false"></dxo-argument-axis>
-        <dxo-export [enabled]="true"></dxo-export>
+        <dxo-argument-axis
+            [valueMarginsEnabled]="false"
+            discreteAxisDivisionMode="crossLabels">
+            <dxo-grid [visible]="true"></dxo-grid>
+        </dxo-argument-axis>
         <dxo-legend
             verticalAlignment="bottom"
-            horizontalAlignment="center">
+            horizontalAlignment="center"
+            itemTextPosition="bottom">
         </dxo-legend>
+        <dxo-title
+            text="Energy consumtion">
+            <dxo-subtitle text="(Millions of Tons, Oil Equivalent)">
+            </dxo-subtitle>
+        </dxo-title>
+        <!-- <dxo-export [enabled]="true"></dxo-export> -->
+        <dxo-tooltip
+            [enabled]="true"
+            [customizeTooltip]="customizeTooltipp">
+        </dxo-tooltip>
     </dx-chart>
-    <div class="options">
+    <!-- <div class="options">
         <div class="caption">Options</div>
-        <div class="option">              
-            <span>Series Type</span> 
+        <div class="option">
+            <span>Series Type</span>
             <dx-select-box
-                [dataSource]="types"
-                [(value)]="commonSeries.type"
-                (onValueChanged)="onValueChanged($event)">
+                [dataSource]="typess"
+                [(value)]="seriesSettings.type">
             </dx-select-box>
-         </div>   
-    </div>
+        </div>
+    </div> -->
 </div>
 <br><br>
 <!-- <dx-validation-group>

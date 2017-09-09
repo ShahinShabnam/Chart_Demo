@@ -2,43 +2,70 @@ import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs/Rx';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 
-export class Population {
+export class CountryInfo {
     country: string;
-    y014: number;
-    y1564: number;
-    y65: number;
+    hydro: number;
+    oil: number;
+    gas: number;
+    coal: number;
+    nuclear: number;
 }
 
-let populationData: Population[] = [{
+export class EnergyDescription {
+    value: string;
+    name: string;
+}
+
+let energySources: EnergyDescription[] = [
+    { value: "hydro", name: "Hydro-electric" },
+    { value: "oil", name: "Oil" },
+    { value: "gas", name: "Natural gas" },
+    { value: "coal", name: "Coal" },
+    { value: "nuclear", name: "Nuclear" }
+];
+
+let countriesInfo: CountryInfo[]  = [{
+    country: "USA",
+    hydro: 59.8,
+    oil: 937.6,
+    gas: 582,
+    coal: 564.3,
+    nuclear: 187.9
+}, {
     country: "China",
-    y014: 320866959,
-    y1564: 853191410,
-    y65: 87774113
-}, {
-    country: "India",
-    y014: 340419115,
-    y1564: 626520945,
-    y65: 47063757
-}, {
-    country: "United States",
-    y014: 58554755,
-    y1564: 182172625,
-    y65: 34835293
-}, {
-    country: "Indonesia",
-    y014: 68715705,
-    y1564: 146014815,
-    y65: 10053690
-}, {
-    country: "Brazil",
-    y014: 50278034,
-    y1564: 113391494,
-    y65: 9190842
+    hydro: 74.2,
+    oil: 308.6,
+    gas: 35.1,
+    coal: 956.9,
+    nuclear: 11.3
 }, {
     country: "Russia",
-    y014: 26465156,
-    y1564: 101123777,
-    y65: 18412243
+    hydro: 40,
+    oil: 128.5,
+    gas: 361.8,
+    coal: 105,
+    nuclear: 32.4
+}, {
+    country: "Japan",
+    hydro: 22.6,
+    oil: 241.5,
+    gas: 64.9,
+    coal: 120.8,
+    nuclear: 64.8
+}, {
+    country: "India",
+    hydro: 19,
+    oil: 119.3,
+    gas: 28.9,
+    coal: 204.8,
+    nuclear: 3.8
+}, {
+    country: "Germany",
+    hydro: 6.1,
+    oil: 123.6,
+    gas: 77.3,
+    coal: 85.7,
+    nuclear: 37.8
 }];
 export class Month {
     id: number;
@@ -91,9 +118,9 @@ export class Service {
     // getCompanies() {
     //     return companies;
     // }
-    getPopulationData(): Population[] {
-        return populationData;
-    }
+    // getPopulationData(): Population[] {
+    //     return populationData;
+    // }
     getMonths(): Month[] {
         return months;
     }
@@ -123,6 +150,11 @@ export class Service {
         .map(this.extractData)
         .catch(this.handleError);
     }
-   
+    getEnergySources(): EnergyDescription[] {
+        return energySources;
+    }
+    getCountriesInfo(): CountryInfo[] {
+        return countriesInfo;
+    }
   
 }

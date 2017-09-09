@@ -1,8 +1,8 @@
-import { Component,ViewChild, AfterViewInit} from '@angular/core';
+import { Component,ViewChild, AfterViewInit,OnInit} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { DxChartModule,DxChartComponent, DxSelectBoxModule } from 'devextreme-angular';
-import { Service,Population,Month} from '../providers/app.service';
+import { Service,Month,CountryInfo,EnergyDescription} from '../providers/app.service';
 import notify from 'devextreme/ui/notify';
 import { Http, HttpModule } from '@angular/http';
 import DataSource from 'devextreme/data/data_source';
@@ -22,14 +22,31 @@ export class AppComponent {
   months:Month[];
   chartDataSource: any;  
   posts:any;
-  name: String;
+ dataName:any;
   dataSource: any[];
-  populationData: Population[];
-  types: string[] = ["area", "stackedarea", "fullstackedarea"];
+  dataValue:any;
+  // populationData: Population[];
+  name:String;
+ ener:any[] = [];
+  types: string[] = ["line", "stackedline", "fullstackedline"];
+  countriesInfo: CountryInfo[];
+  energySources: EnergyDescription[];
+  typess: string[] = ["area", "stackedarea", "fullstackedarea"];
   format = "millions";
       constructor(public myservice: Service,public http :Http) {
         //this.dataSource = myservice.getCompanies();
-        this.populationData=myservice.getPopulationData();
+        this.countriesInfo = myservice.getCountriesInfo();
+        this.energySources = myservice.getEnergySources();
+        console.log(this.energySources );
+        for(let i=0; i<= this.energySources.length; ){
+          
+             for ( let ener in this.energySources [i]) {
+              console.log(ener + " ,"+"ener")
+               }
+        i++;
+      }
+      
+      
        this.getPosts();
         this.getData();
         this.months = myservice.getMonths();
@@ -44,6 +61,16 @@ export class AppComponent {
             filter: ['Id', '=', 1]
         });
       }
+      ngOnInit() {
+      
+          
+             for ( let ener in this.energySources [0]) {
+              console.log(ener + " ,"+"ener")
+              this.ener.push(ener);
+               }
+    
+    
+      }
       customizeText(arg) {
         return "YEAR" + arg.valueText;
     }
@@ -56,6 +83,12 @@ export class AppComponent {
   onValueChanged(e) {
     this.format = e.value === this.types[2] ? "percent" : "millions";
 }
+customizeTooltipp(arg) {
+  return {
+      text: arg.valueText
+  }
+}
+
 getPosts() {
      this.myservice.getJSON()
          .subscribe(
